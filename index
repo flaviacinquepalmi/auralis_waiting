@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0A1628">
+  <title>Auralis — Worth the wait</title>
+  <meta name="description" content="Auralis is coming this September. Join the priority list.">
+  <style>
+    :root{
+      --navy:#0A1628;
+      --navy2:#0E1E38;
+      --blue:#4A7BC4;
+      --blue2:#6BAED6;
+      --gold:#C9A535;
+      --gold2:#E8C96A;
+      --white:#FFFFFF;
+      --off:#F7F9FC;
+      --gray:#EEF2F7;
+      --text:#0A1628;
+      --muted:#607080;
+      --p:0;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    html,body{
+      margin:0;
+      background:#06101f;
+      color:var(--off);
+      font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+    }
+    body{overflow-x:hidden}
+
+    /* ===== PORTAL HERO ===== */
+    .portal{
+      height:250vh;
+      position:relative;
+      background:#06101f;
+    }
+    .stage{
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow:hidden;
+      isolation:isolate;
+      background:#06101f;
+    }
+    .sky{
+      position:absolute;
+      inset:-5%;
+      z-index:0;
+      transform:scale(calc(1.13 - (var(--p) * .13)));
+      background:
+        radial-gradient(circle at 72% 24%,rgba(107,174,214,.36),transparent 22%),
+        radial-gradient(circle at 28% 80%,rgba(201,165,53,.11),transparent 25%),
+        linear-gradient(180deg,#0b1d34 0%,#0A1628 44%,#07111f 100%);
+    }
+    .sky:after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at center,transparent 18%,rgba(3,8,17,.72) 100%);
+    }
+    .jet{
+      position:absolute;
+      z-index:1;
+      left:50%;
+      top:50%;
+      width:min(86vw,1450px);
+      transform:
+        translate(-50%,-47%)
+        translateX(calc((var(--p) - .5) * 80px))
+        scale(calc(.86 + var(--p) * .16));
+      opacity:calc(.05 + var(--p) * .95);
+      filter:drop-shadow(0 28px 55px rgba(0,0,0,.45));
+    }
+    .jet svg{width:100%;height:auto;display:block}
+    .jet .body{fill:#F7F9FC}
+    .jet .shade{fill:#D9E3EE}
+    .jet .glass{fill:#17355B}
+    .jet .gold{fill:#C9A535}
+    .jet .line{fill:#6BAED6;opacity:.35}
+    .panel{
+      position:absolute;
+      top:0;
+      bottom:0;
+      width:51%;
+      z-index:3;
+      background:#0A1628;
+      will-change:transform;
+    }
+    .panel.left{left:0;transform:translateX(calc(var(--p) * -104%))}
+    .panel.right{right:0;transform:translateX(calc(var(--p) * 104%))}
+    .panel:after{
+      content:"";
+      position:absolute;
+      top:0;bottom:0;width:1px;
+      background:rgba(232,201,106,.2);
+    }
+    .panel.left:after{right:0}
+    .panel.right:after{left:0}
+    .title{
+      position:absolute;
+      inset:0;
+      z-index:5;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+      white-space:nowrap;
+      font-weight:800;
+      text-transform:uppercase;
+      font-size:clamp(74px,15vw,250px);
+      letter-spacing:calc(.04em - var(--p) * .07em);
+      transform:scale(calc(1 + var(--p) * .15));
+      color:var(--off);
+      line-height:.78;
+    }
+    .title span{
+      display:inline-block;
+      text-shadow:0 24px 80px rgba(0,0,0,.45);
+      will-change:transform;
+    }
+    .title .a{transform:translateX(calc(var(--p) * -54%))}
+    .title .b{transform:translateX(calc(var(--p) * 54%))}
+    .title .dot{color:var(--gold2)}
+    .accent-dot{
+      position:absolute;
+      left:50%;
+      top:50%;
+      z-index:6;
+      width:7px;height:7px;border-radius:50%;
+      background:var(--gold2);
+      box-shadow:0 0 18px rgba(232,201,106,.55);
+    }
+    .accent-dot.one{
+      transform:translate(calc(-50% + var(--p) * -42vw),calc(-50% + var(--p) * -34vh));
+    }
+    .accent-dot.two{
+      background:var(--blue2);
+      box-shadow:0 0 18px rgba(107,174,214,.55);
+      transform:translate(calc(-50% + var(--p) * 42vw),calc(-50% + var(--p) * 34vh));
+    }
+    .hero-copy{
+      position:absolute;
+      left:50%;
+      bottom:7vh;
+      z-index:8;
+      width:min(92vw,900px);
+      transform:translateX(-50%) translateY(calc((1 - var(--p)) * 34px));
+      opacity:clamp(0,calc((var(--p) - .58) * 3.1),1);
+      text-align:center;
+    }
+    .hero-copy p{
+      margin:0 auto 28px;
+      max-width:760px;
+      font-size:clamp(20px,2.3vw,34px);
+      line-height:1.15;
+      letter-spacing:-.035em;
+      font-weight:650;
+    }
+    .hero-copy em{font-style:normal;color:var(--gold2)}
+    .discover{
+      display:inline-flex;
+      align-items:center;
+      gap:11px;
+      padding:14px 22px;
+      border:1px solid rgba(232,201,106,.48);
+      border-radius:999px;
+      color:var(--off);
+      text-decoration:none;
+      font-size:11px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      background:rgba(10,22,40,.32);
+      backdrop-filter:blur(16px);
+    }
+    .discover:after{content:"↓";color:var(--gold2);font-size:14px}
+
+    /* ===== COUNTDOWN ===== */
+    .countdown-section{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:90px 24px;
+      background:
+        radial-gradient(circle at 72% 38%,rgba(201,165,53,.08),transparent 28%),
+        radial-gradient(circle at 30% 78%,rgba(74,123,196,.08),transparent 24%),
+        #07111f;
+      position:relative;
+      overflow:hidden;
+    }
+    .countdown-section:before{
+      content:"";
+      position:absolute;inset:0;
+      background-image:radial-gradient(rgba(232,201,106,.18) 1px,transparent 1px);
+      background-size:28px 28px;
+      opacity:.14;
+      pointer-events:none;
+    }
+    .countdown-wrap{
+      position:relative;
+      z-index:1;
+      width:min(1050px,100%);
+      text-align:center;
+    }
+    .countdown-kicker{
+      color:var(--gold2);
+      font-size:10px;
+      letter-spacing:.34em;
+      text-transform:uppercase;
+      font-weight:800;
+      margin-bottom:26px;
+    }
+    .countdown-title{
+      margin:0;
+      font-size:clamp(56px,8vw,118px);
+      line-height:.9;
+      letter-spacing:-.06em;
+      font-weight:800;
+    }
+    .countdown-sub{
+      margin:24px auto 0;
+      max-width:650px;
+      color:rgba(247,249,252,.55);
+      font-size:clamp(17px,1.5vw,22px);
+      line-height:1.5;
+    }
+    .countdown{
+      margin:56px auto 0;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:1px;
+      border:1px solid rgba(255,255,255,.09);
+      background:rgba(255,255,255,.08);
+      width:min(850px,100%);
+    }
+    .time-box{
+      background:rgba(7,17,31,.78);
+      padding:30px 12px 26px;
+      backdrop-filter:blur(12px);
+    }
+    .time-num{
+      display:block;
+      font-size:clamp(42px,5.6vw,78px);
+      line-height:1;
+      font-weight:500;
+      font-variant-numeric:tabular-nums;
+      letter-spacing:-.04em;
+      color:var(--off);
+    }
+    .time-label{
+      display:block;
+      margin-top:12px;
+      color:rgba(232,201,106,.66);
+      font-size:9px;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+    }
+    .scroll-next{
+      display:inline-flex;
+      margin-top:34px;
+      color:rgba(247,249,252,.6);
+      text-decoration:none;
+      border-bottom:1px solid rgba(232,201,106,.32);
+      padding-bottom:4px;
+      font-size:11px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+
+    /* ===== LISTA PRIORITARIA ===== */
+    .priority{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:100px 24px;
+      background:#07111f;
+      border-top:1px solid rgba(255,255,255,.08);
+    }
+    .priority-wrap{
+      width:min(670px,100%);
+    }
+    .form-card{
+      border:1px solid rgba(232,201,106,.22);
+      background:rgba(247,249,252,.045);
+      padding:34px;
+      border-radius:16px;
+      backdrop-filter:blur(18px);
+    }
+    .form-card h2{
+      margin:0 0 10px;
+      font-size:clamp(34px,5vw,56px);
+      letter-spacing:-.05em;
+      line-height:.95;
+    }
+    .form-card > p{
+      margin:0 0 26px;
+      color:rgba(247,249,252,.5);
+      font-size:14px;
+      line-height:1.55;
+    }
+    form{display:grid;gap:11px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+    input,select{
+      width:100%;
+      padding:14px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(3,8,17,.48);
+      color:#fff;
+      outline:none;
+      font:inherit;
+      font-size:13px;
+    }
+    input::placeholder{color:#8491a1}
+    input:focus,select:focus{border-color:rgba(232,201,106,.68)}
+    select{color:#c7d0da}
+    button{
+      border:0;
+      border-radius:8px;
+      padding:15px 18px;
+      background:var(--gold2);
+      color:var(--navy);
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      cursor:pointer;
+    }
+    .privacy{
+      font-size:9.5px;
+      line-height:1.45;
+      color:rgba(247,249,252,.34);
+      margin:3px 0 0;
+    }
+    .contact-mail{
+      display:block;
+      width:max-content;
+      max-width:100%;
+      margin:26px auto 0;
+      color:var(--off);
+      text-decoration:none;
+      font-size:13px;
+      border-bottom:1px solid rgba(232,201,106,.35);
+      padding-bottom:4px;
+    }
+
+    footer{
+      padding:22px 24px;
+      background:#07111f;
+      border-top:1px solid rgba(255,255,255,.08);
+      display:flex;
+      justify-content:center;
+      color:rgba(247,249,252,.28);
+      font-size:10px;
+    }
+
+    @media(max-width:850px){
+      .portal{height:220vh}
+      .title{font-size:clamp(70px,20vw,130px)}
+      .jet{width:130vw}
+    }
+    @media(max-width:620px){
+      .countdown{grid-template-columns:repeat(2,1fr)}
+      .row{grid-template-columns:1fr}
+      .form-card{padding:24px}
+      .title{font-size:clamp(58px,20vw,96px)}
+    }
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+    }
+  </style>
+</head>
+<body>
+
+<section class="countdown-section" id="countdown">
+  <div class="countdown-wrap">
+    <div class="countdown-kicker">Auralis</div>
+    <h2 class="countdown-title">Worth the wait.</h2>
+    <p class="countdown-sub">Coming this September.</p>
+
+    <div class="countdown" aria-label="Countdown to launch">
+      <div class="time-box"><span class="time-num" id="days">00</span><span class="time-label">Days</span></div>
+      <div class="time-box"><span class="time-num" id="hours">00</span><span class="time-label">Hours</span></div>
+      <div class="time-box"><span class="time-num" id="minutes">00</span><span class="time-label">Minutes</span></div>
+      <div class="time-box"><span class="time-num" id="seconds">00</span><span class="time-label">Seconds</span></div>
+    </div>
+
+    <a class="scroll-next" href="#lista">Join the priority list ↓</a>
+  </div>
+</section>
+
+<section class="priority" id="lista">
+  <div class="priority-wrap">
+    <div class="form-card">
+      <h2>Join the priority list.</h2>
+      <p>Leave your details and travel preferences. We’ll let you know when Auralis goes live and when opportunities matching your journeys become available.</p>
+
+      <!-- Sostituisci ACTION_URL con Formspree/Basin/CRM -->
+      <form id="leadForm" action="https://formspree.io/f/mdendndk" method="POST">
+        <input type="hidden" name="_subject" value="New Auralis Priority List lead">
+        <div class="row">
+          <input name="nome" placeholder="First name" required>
+          <input name="cognome" placeholder="Last name" required>
+        </div>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="tel" name="telefono" placeholder="Phone / WhatsApp">
+        <div class="row">
+          <input name="aeroporto" placeholder="Home airport (e.g. OLB)">
+          <select name="interesse">
+            <option value="">I’m interested in</option>
+            <option>Empty leg</option>
+            <option>Full private charter</option>
+            <option>Shared flights</option>
+            <option>All opportunities</option>
+          </select>
+        </div>
+        <button type="submit">Get early access</button>
+        <p class="privacy">By submitting your details, you agree to be contacted by Auralis regarding launch updates and relevant travel opportunities.</p>
+      </form>
+
+      <a class="contact-mail" href="mailto:contatti@auralisair.it">contatti@auralisair.it</a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Auralis</footer>
+
+<script>
+(function(){
+  const target = new Date('2026-09-01T00:00:00+02:00').getTime();
+
+  function updateCountdown(){
+    const now = Date.now();
+    let distance = Math.max(0, target - now);
+
+    const d = Math.floor(distance / 86400000);
+    distance %= 86400000;
+    const h = Math.floor(distance / 3600000);
+    distance %= 3600000;
+    const m = Math.floor(distance / 60000);
+    distance %= 60000;
+    const s = Math.floor(distance / 1000);
+
+    document.getElementById('days').textContent = String(d).padStart(2,'0');
+    document.getElementById('hours').textContent = String(h).padStart(2,'0');
+    document.getElementById('minutes').textContent = String(m).padStart(2,'0');
+    document.getElementById('seconds').textContent = String(s).padStart(2,'0');
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown,1000);
+
+  const form = document.getElementById('leadForm');
+
+  const success = document.createElement('div');
+  success.id = 'formSuccess';
+  success.innerHTML = `
+    <div style="
+      border:1px solid rgba(232,201,106,.28);
+      background:rgba(201,165,53,.07);
+      padding:22px;
+      border-radius:12px;
+      color:#E8C96A;
+      font-size:15px;
+      line-height:1.5;
+      text-align:center;">
+      <strong style="display:block;font-size:22px;color:#F7F9FC;margin-bottom:7px;">
+        You're on the list.
+      </strong>
+      We'll be in touch when Auralis is ready and when relevant opportunities become available.
+    </div>
+  `;
+  success.style.display = 'none';
+  form.parentNode.insertBefore(success, form.nextSibling);
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+
+    const button = form.querySelector('button[type="submit"]');
+    const originalText = button.textContent;
+    button.disabled = true;
+    button.textContent = 'Sending...';
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        form.reset();
+        form.style.display = 'none';
+        success.style.display = 'block';
+      } else {
+        alert('Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      alert('Something went wrong. Please try again.');
+    } finally {
+      button.disabled = false;
+      button.textContent = originalText;
+    }
+  });
+})();
+</script>
+
+
+<style>
+  .countdown-title,
+  .form-card h2 {
+    font-family:"Inter","Avenir Next","Helvetica Neue",Arial,sans-serif;
+    font-weight:700;
+    letter-spacing:-0.075em;
+  }
+
+  .countdown-kicker,
+  .time-label,
+  .scroll-next,
+  input,
+  select,
+  button,
+  .form-card > p,
+  .contact-mail,
+  .privacy {
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+  }
+
+  .countdown-kicker,
+  .time-label,
+  .scroll-next {
+    color:#E8C96A;
+  }
+
+  button {
+    background:#E8C96A;
+    color:#0A1628;
+  }
+
+  input:focus,
+  select:focus {
+    border-color:#C9A535;
+  }
+
+  .contact-mail {
+    border-bottom-color:rgba(201,165,53,.45);
+  }
+</style>
+
+</body>
+</html>
+<style>
+  .countdown-section{min-height:100vh;padding-top:10vh}
+  .countdown-title{
+    font-family:"Inter","Avenir Next","Helvetica Neue",Arial,sans-serif;
+    font-weight:500;
+    letter-spacing:-.045em;
+  }
+  .countdown-kicker,.time-label,.scroll-next{
+    font-family:"Courier New",monospace;
+  }
+  .form-card h2{
+    font-family:"Inter","Avenir Next","Helvetica Neue",Arial,sans-serif;
+    font-weight:500;
+  }
+</style>
